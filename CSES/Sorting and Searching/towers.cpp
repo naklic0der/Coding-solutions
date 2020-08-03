@@ -87,7 +87,7 @@ template<class T1, class T2, class T3>void js(T1 arr,T2 start,T3 end)
     cout <<endl;
 }
  
-		
+ 
 void read(vector<int> &v) {
 	int N = (int)v.size();
 	for(int i=0; i<N; i++) {
@@ -99,37 +99,27 @@ void read(vector<int> &v) {
 ///  TEMPLATE   OVER   ///
  
 ///----------ANSWER -------------------------------///
+ 
 #define ar array
-const int mxn = 2e5;
-int n,ans[mxn];
-ar<int,3> a[mxn];
  
 void Answer() {
-	cin >> n;
-	
-	for(int i=0; i<n; i++) {
-		cin >> a[i][1] >> a[i][0];
-		a[i][2] = i;
-	}
-	sort(a,a+n);
-	set<ar<int,2>> s;
-	for(int i=0; i<n; i++) {
-		auto it = s.lower_bound({a[i][1]});
-		if(it!=s.begin()) {
-			--it;
-			ans[a[i][2]] = (*it)[1];
+    int n;
+    cin >> n;
+    
+    set<ar<int,2>> s;
+    for(int i=0; i<n; i++) {
+		int a;
+		cin >> a;
+		auto it = s.upper_bound({a,n+1});
+		if(it != s.end()) {
 			s.erase(it);
-		} else {
-			ans[a[i][2]] = s.size();
 		}
-		s.insert({a[i][0],ans[a[i][2]]});
+		s.insert({a,i});
 	}
+	
 	cout << s.size() << endl;
-	for(int i=0; i<n; i++) {
-		cout << ans[i]+1 << ' ';
-	}
-	
-	
+ 
+    
 }
  
 int main() {

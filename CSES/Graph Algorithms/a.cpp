@@ -87,7 +87,7 @@ template<class T1, class T2, class T3>void js(T1 arr,T2 start,T3 end)
     cout <<endl;
 }
  
-		
+ 
 void read(vector<int> &v) {
 	int N = (int)v.size();
 	for(int i=0; i<N; i++) {
@@ -99,37 +99,43 @@ void read(vector<int> &v) {
 ///  TEMPLATE   OVER   ///
  
 ///----------ANSWER -------------------------------///
-#define ar array
-const int mxn = 2e5;
-int n,ans[mxn];
-ar<int,3> a[mxn];
+const int mxn=1e3;
+int n,m;
+string s[mxn];
+ 
+bool e(int i, int j) {
+	return i>=0&&i<n&&j>=0&&j<m&&s[i][j]=='.';
+}
+ 
+void dfs(int i, int j) {
+	s[i][j] = '#';
+	if(e(i-1,j))
+		dfs(i-1,j);
+	if(e(i,j-1))
+		dfs(i,j-1);
+	if(e(i+1,j))
+		dfs(i+1,j);
+	if(e(i,j+1))
+		dfs(i,j+1);
+}
  
 void Answer() {
-	cin >> n;
-	
+    
+	cin >> n >> m;
 	for(int i=0; i<n; i++) {
-		cin >> a[i][1] >> a[i][0];
-		a[i][2] = i;
+		cin >> s[i];
 	}
-	sort(a,a+n);
-	set<ar<int,2>> s;
+	int ans=0; 
 	for(int i=0; i<n; i++) {
-		auto it = s.lower_bound({a[i][1]});
-		if(it!=s.begin()) {
-			--it;
-			ans[a[i][2]] = (*it)[1];
-			s.erase(it);
-		} else {
-			ans[a[i][2]] = s.size();
+		for(int j=0; j<m; j++) {
+			if(e(i,j)) {
+				dfs(i,j);
+				++ans;
+			}
 		}
-		s.insert({a[i][0],ans[a[i][2]]});
 	}
-	cout << s.size() << endl;
-	for(int i=0; i<n; i++) {
-		cout << ans[i]+1 << ' ';
-	}
-	
-	
+    
+    cout << ans << endl;
 }
  
 int main() {
